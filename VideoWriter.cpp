@@ -15,23 +15,17 @@ int to_int(double x) {
 
 void VideoWrite(std::string fileName,edupt::Color *Color,int width,int height) {
   cv::VideoWriter writer(fileName+".avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 60, cv::Size(width, height));
-  cv::Mat frame(width, height, CV_8UC3);;
 
 
 
-  for (int f = 0; f < 60*width*height*3; f++) {
-    frame.data[f] = 255;
-
-    /*
-    std::cout << (float)f / (60 * 60) << std::endl;
+  cv::Mat frame(width, height, CV_8UC3);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        frame.data[y * width * 3 + x * 3] = 255;
-        frame.data[y * width * 3 + x * 3 + 1] = 0;
-        frame.data[y * width * 3 + x * 3 + 2] = 0;
+        frame.data[y * width * 3 + x * 3] = (int)(255*Color[y*width + x].z);
+        frame.data[y * width * 3 + x * 3 + 1] = (int)(255 * Color[y * width + x].y);
+        frame.data[y * width * 3 + x * 3 + 2] = (int)(255 * Color[y * width + x].x);
       }
     }
-    */
-  }
+    writer << frame;
 
 }

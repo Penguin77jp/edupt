@@ -65,7 +65,7 @@ int render(const int width, const int height, const int samples, const int super
 	}
 	
 	// 出力
-  save_ppm_file(std::string("image.ppm"), image, width, height);
+  //save_ppm_file(std::string("image.ppm"), image, width, height);
   VideoWrite(std::string("image"), image, width, height);
 	return 0;
 }
