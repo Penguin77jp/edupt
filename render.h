@@ -6,13 +6,13 @@
 #include "radiance.h"
 #include "ppm.h"
 #include "random.h"
-#include "VideoWriter.h"
+#include "vWriter.h"
 
 namespace edupt {
 
-int render(const int width, const int height, const int samples, const int supersamples) {
+int render(const int width, const int height, const int samples, const int supersamples,float time,vWriter writer) {
 	// カメラ位置
-	const Vec camera_position = Vec(50.0, 52.0, 220.0);
+	const Vec camera_position = Vec(50.0+sin(time)*40, 52.0, 220.0);
 	const Vec camera_dir      = normalize(Vec(0.0, -0.04, -1.0));
 	const Vec camera_up       = Vec(0.0, 1.0, 0.0);
 
@@ -31,9 +31,10 @@ int render(const int width, const int height, const int samples, const int super
 	std::cout << width << "x" << height << " " << samples * (supersamples * supersamples) << " spp" << std::endl;
 
 	// OpenMP
- #pragma omp parallel for schedule(dynamic, 1) num_threads(4)
+//#pragma omp parallel for schedule(dynamic, 1) num_threads(4)
+#pragma omp parallel for
 	for (int y = 0; y < height; y ++) {
-		std::cerr << "Rendering (y = " << y << ") " << (100.0 * y / (height - 1)) << "%" << std::endl;
+		//std::cerr << "Rendering (y = " << y << ") " << (100.0 * y / (height - 1)) << "%" << std::endl;
 
 		Random rnd(y + 1);
 		for (int x = 0; x < width; x ++) {
@@ -66,7 +67,7 @@ int render(const int width, const int height, const int samples, const int super
 	
 	// 出力
   //save_ppm_file(std::string("image.ppm"), image, width, height);
-  VideoWrite(std::string("image"), image, width, height);
+  writer.Write(image);
 	return 0;
 }
 
