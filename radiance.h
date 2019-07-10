@@ -16,13 +16,13 @@ const int kDepth = 5; // ロシアンルーレットで打ち切らない最大�
 const int kDepthLimit = 64;
 
 // ray方向からの放射輝度を求める
-Color radiance(const Ray &ray, Random *rnd, const int depth) {
+Color radiance(const Ray &ray, Random *rnd, const int depth,scene *getSceneData) {
 	Intersection intersection;
 	// シーンと交差判定
-	if (!intersect_scene(ray, &intersection))
+	if (!getSceneData->intersect_scene(ray, &intersection))
 		return kBackgroundColor;
 
-	const Sphere &now_object = spheres[intersection.object_id];
+	const Sphere &now_object = getSceneData->spheres[intersection.object_id];
 	const Hitpoint &hitpoint = intersection.hitpoint;
 	const Vec orienting_normal = dot(hitpoint.normal , ray.dir) < 0.0 ? hitpoint.normal: (-1.0 * hitpoint.normal); // 交差位置の法線（物体からのレイの入出を考慮）
 	// 色の反射率最大のものを得る。ロシアンルーレットで使う。
@@ -63,7 +63,7 @@ Color radiance(const Ray &ray, Random *rnd, const int depth) {
 			v * sin(r1) * r2s +
 			w * sqrt(1.0 - r2)));
 
-		incoming_radiance = radiance(Ray(hitpoint.position, dir), rnd, depth+1);
+		incoming_radiance = radiance(Ray(hitpoint.position, dir), rnd, depth+1,getSceneData);
 		// レンダリング方程式に対するモンテカルロ積分を考えると、outgoing_radiance = weight * incoming_radiance。
 		// ここで、weight = (ρ/π) * cosθ / pdf(ω) / R になる。
 		// ρ/πは完全拡散面のBRDFでρは反射率、cosθはレンダリング方程式におけるコサイン項、pdf(ω)はサンプリング方向についての確率密度関数。
@@ -77,7 +77,7 @@ Color radiance(const Ray &ray, Random *rnd, const int depth) {
 	case REFLECTION_TYPE_SPECULAR: {
 		// 完全鏡面なのでレイの反射方向は決定的。
 		// ロシアンルーレットの確率で除算するのは上と同じ。
-		incoming_radiance = radiance(Ray(hitpoint.position, ray.dir - hitpoint.normal * 2.0 * dot(hitpoint.normal, ray.dir)), rnd, depth+1);
+		incoming_radiance = radiance(Ray(hitpoint.position, ray.dir - hitpoint.normal * 2.0 * dot(hitpoint.normal, ray.dir)), rnd, depth+1,getSceneData);
 		weight = now_object.color / russian_roulette_probability;
 	} break;
 
@@ -94,7 +94,7 @@ Color radiance(const Ray &ray, Random *rnd, const int depth) {
 		const double cos2t = 1.0 - nnt * nnt * (1.0 - ddn * ddn);
 		
 		if (cos2t < 0.0) { // 全反射
-			incoming_radiance = radiance(reflection_ray, rnd, depth+1);
+			incoming_radiance = radiance(reflection_ray, rnd, depth+1,getSceneData);
 			weight = now_object.color / russian_roulette_probability;
 			break;
 		}
@@ -116,16 +116,16 @@ Color radiance(const Ray &ray, Random *rnd, const int depth) {
 		const double probability  = 0.25 + 0.5 * Re;
 		if (depth > 2) {
 			if (rnd->next01() < probability) { // 反射
-				incoming_radiance = radiance(reflection_ray, rnd, depth+1) * Re;
+				incoming_radiance = radiance(reflection_ray, rnd, depth+1,getSceneData) * Re;
 				weight = now_object.color / (probability * russian_roulette_probability);
 			} else { // 屈折
-				incoming_radiance = radiance(refraction_ray, rnd, depth+1) * Tr;
+				incoming_radiance = radiance(refraction_ray, rnd, depth+1,getSceneData) * Tr;
 				weight = now_object.color / ((1.0 - probability) * russian_roulette_probability);
 			}
 		} else { // 屈折と反射の両方を追跡
 			incoming_radiance = 
-				radiance(reflection_ray, rnd, depth+1) * Re +
-				radiance(refraction_ray, rnd, depth+1) * Tr;
+				radiance(reflection_ray, rnd, depth+1,getSceneData) * Re +
+				radiance(refraction_ray, rnd, depth+1,getSceneData) * Tr;
 			weight = now_object.color / (russian_roulette_probability);
 		}
 	} break;

@@ -3,15 +3,27 @@
 
 #include "render.h"
 #include "vWriter.h"
+#include "Time.h"
+#include "scene.h"
+#include "Animation.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 	std::cout << "Path tracing renderer: edupt" << std::endl << std::endl;
 
-	// 640x480の画像、(2x2) * 4 sample / pixel
-  vWriter writer = vWriter("test",100,100);
-  int time = 60 * 3.14 * 2;
-  for (int f = 0; f < time; f++) {
-    std::cout << (float)f / time*100 << "%" << std::endl;
-   edupt::render(100, 100, 4, 5,(float)f/60, writer);
-  }
+	//const int width = 640, height = 480, sampling = 5, fps = 60;
+	const int width = 100, height = 100, sampling = 10,fps=5;
+
+	vWriter writer = vWriter("output",fps, width, height);
+	edupt::scene *sceneData = &edupt::scene();
+	Time time = Time(fps);
+	Animation anim = Animation(&time, sceneData);
+	anim.AddWork(&sceneData->spheres[6].color.y,0.75,0.,1.);
+
+	int timelimit = 1;
+	for (; time.getTime() < timelimit; time++) {
+		std::cout << time.getTime() / timelimit * 100 << "%" << std::endl;
+		anim.Update();
+		edupt::Color *image = edupt::render(width, height, 4, sampling, time.getTime(),sceneData ,writer);
+	}
+	return 0;
 }

@@ -56,5 +56,14 @@
     <ClInclude Include="vWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

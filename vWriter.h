@@ -4,38 +4,39 @@
 
 class vWriter {
 private:
-  cv::VideoWriter writer;
-  int width, height;
+	int width, height,fps;
 
-  double clamp(double x) {
-    if (x < 0.0)
-      return 0.0;
-    if (x > 1.0)
-      return 1.0;
-    return x;
-  }
-  int to_int(double x) {
-    return int(pow(clamp(x), 1 / 2.2) * 255 + 0.5);
-  }
+	double clamp(double x) {
+		if (x < 0.0)
+			return 0.0;
+		if (x > 1.0)
+			return 1.0;
+		return x;
+	}
+	int to_int(double x) {
+		return int(pow(clamp(x), 1 / 2.2) * 255 + 0.5);
+	}
 
 public:
-  vWriter(std::string fileName, int width, int height) {
-    cv::VideoWriter writer(fileName + ".avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 60, cv::Size(width, height));
-    this->writer = writer;
-    this->width = width;
-    this->height = height;
-  }
+	cv::VideoWriter writer;
+	vWriter(std::string fileName,int fps ,int width, int height) {
+		cv::VideoWriter writer(fileName + ".avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), fps, cv::Size(width, height));
+		this->writer = writer;
+		this->width = width;
+		this->height = height;
+		this->fps = fps;
+	}
 
-  void Write(edupt::Color* Color) {
-    cv::Mat frame(width, height, CV_8UC3);
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        frame.data[y * width * 3 + x * 3] = (int)(255 * Color[y * width + x].z);
-        frame.data[y * width * 3 + x * 3 + 1] = (int)(255 * Color[y * width + x].y);
-        frame.data[y * width * 3 + x * 3 + 2] = (int)(255 * Color[y * width + x].x);
-      }
-    }
-    writer << frame;
+	void Write(edupt::Color* Color) {
+		cv::Mat frame(cv::Size(width,height), CV_8UC3);
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				frame.data[y * width * 3 + x * 3] = (int)(255 * Color[y * width + x].z);
+				frame.data[y * width * 3 + x * 3 + 1] = (int)(255 * Color[y * width + x].y);
+				frame.data[y * width * 3 + x * 3 + 2] = (int)(255 * Color[y * width + x].x);
+			}
+		}
+		writer << frame;
 
-  }
+	}
 };
