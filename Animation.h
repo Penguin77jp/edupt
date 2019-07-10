@@ -42,7 +42,7 @@ public:
 	void Update() {
 		for (int i = 0; i < works.size(); i++) {
 			auto working = works.at(i);
-			double tp = time->getTime() / working.timelimit;
+			double tp = time->getSceneTime() / working.timelimit;
 			*working.targetVar = (1 - tp) * working.startValue + tp * working.targetValue;
 		}
 	}

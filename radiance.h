@@ -1,4 +1,4 @@
-﻿#ifndef _RADIANCE_H_
+#ifndef _RADIANCE_H_
 #define _RADIANCE_H_
 
 #include <algorithm>
@@ -12,8 +12,8 @@
 namespace edupt {
 
 const Color kBackgroundColor = Color(0.0, 0.0, 0.0);
-const int kDepth = 5; // ロシアンルーレットで打ち切らない最大深度
-const int kDepthLimit = 64;
+const int kDepth = 2; // ロシアンルーレットで打ち切らない最大深度
+const int kDepthLimit = 5;
 
 // ray方向からの放射輝度を求める
 Color radiance(const Ray &ray, Random *rnd, const int depth,scene *getSceneData) {

@@ -66,8 +66,8 @@ namespace edupt {
 		}
 
 		// 出力
-		//save_ppm_file(std::string("image.ppm"), image, width, height);
-		writer.Write(image);
+		save_ppm_file(std::string("image.ppm"), image, width, height);
+		//writer.Write(image);
 		return image;
 	}
 
