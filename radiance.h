@@ -88,7 +88,7 @@ Color radiance(const Ray &ray, Random *rnd, const int depth,scene *getSceneData)
 
 		// Snellの法則
 		const double nc = 1.0; // 真空の屈折率
-		const double nt = kIor; // オブジェクトの屈折率
+		const double nt = getSceneData->kIor; // オブジェクトの屈折率
 		const double nnt = into ? nc / nt : nt / nc;
 		const double ddn = dot(ray.dir, orienting_normal);
 		const double cos2t = 1.0 - nnt * nnt * (1.0 - ddn * ddn);

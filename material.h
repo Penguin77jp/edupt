@@ -13,7 +13,7 @@ enum ReflectionType {
 	REFLECTION_TYPE_REFRACTION,	// 理想的なガラス的物質。
 };
 
-const double kIor = 1.5; // 屈折率(Index of refraction)
+//const double kIor = 1.5; // 屈折率(Index of refraction)
 
 };
 
