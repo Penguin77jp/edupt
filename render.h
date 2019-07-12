@@ -8,24 +8,21 @@
 #include "random.h"
 #include "vWriter.h"
 #include "scene.h"
+#include "Time.h"
 
 namespace edupt {
 
-	Color* render(const int width, const int height, const int samples, const int supersamples, float time,scene *sceneData, vWriter writer) {
-		// カメラ位置
-		const Vec camera_position = Vec(50.0 + sin(time) * 40, 52.0, 220.0);
-		const Vec camera_dir = normalize(Vec(0.0, -0.04, -1.0));
-		const Vec camera_up = Vec(0.0, 1.0, 0.0);
-
+	Color* render(const int width, const int height, const int samples, const int supersamples, Time time,scene *sceneData, vWriter writer) {
 		// ワールド座標系でのスクリーンの大きさ
 		const double screen_width = 30.0 * width / height;
 		const double screen_height = 30.0;
 		// スクリーンまでの距離
 		const double screen_dist = 40.0;
+
 		// スクリーンを張るベクトル
-		const Vec screen_x = normalize(cross(camera_dir, camera_up)) * screen_width;
-		const Vec screen_y = normalize(cross(screen_x, camera_dir)) * screen_height;
-		const Vec screen_center = camera_position + camera_dir * screen_dist;
+		const Vec screen_x = normalize(cross(sceneData->camera_dir, sceneData->camera_up)) * screen_width;
+		const Vec screen_y = normalize(cross(screen_x, sceneData->camera_dir)) * screen_height;
+		const Vec screen_center = sceneData->camera_position + sceneData->camera_dir * screen_dist;
 
 		Color* image = new Color[width * height];
 
@@ -34,7 +31,10 @@ namespace edupt {
 		// OpenMP
 	#pragma omp parallel for schedule(dynamic, 1)
 		for (int y = 0; y < height; y++) {
-			//std::cerr << "Rendering (y = " << y << ") " << (100.0 * y / (height - 1)) << "%" << std::endl;
+			//double process = ((double)y / (height - 1)) * (time.getSceneTime() / time.getTimeLimit());
+			//double process = ((double)(y+ time.getSceneTime()*(height-1)) / (*(height - 1)));
+			//std::cerr << "Rendering (y = " << y << ") " << 100.0 * process << "% remaining time:"
+				//<< std::to_string((double)time.ElapsedTime() / process * (1.0 - process) / CLOCKS_PER_SEC / 60) << " minutes" << std::endl;
 
 			Random rnd(y + 1);
 			for (int x = 0; x < width; x++) {
@@ -54,10 +54,10 @@ namespace edupt {
 								screen_x * ((r1 + x) / width - 0.5) +
 								screen_y * ((r2 + y) / height - 0.5);
 							// レイを飛ばす方向
-							const Vec dir = normalize(screen_position - camera_position);
+							const Vec dir = normalize(screen_position - sceneData->camera_position);
 
 							accumulated_radiance = accumulated_radiance +
-								radiance(Ray(camera_position, dir), &rnd, 0,sceneData) / samples / (supersamples * supersamples);
+								radiance(Ray(sceneData->camera_position, dir), &rnd, 0,sceneData) / samples / (supersamples * supersamples);
 						}
 						image[image_index] = image[image_index] + accumulated_radiance;
 					}
@@ -66,8 +66,8 @@ namespace edupt {
 		}
 
 		// 出力
-		save_ppm_file(std::string("image.ppm"), image, width, height);
-		//writer.Write(image);
+		//save_ppm_file(std::string("image.ppm"), image, width, height);
+		writer.Write(image);
 		return image;
 	}
 

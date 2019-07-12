@@ -7,10 +7,12 @@ private:
 	int fps;
 	int currentFPS;
   clock_t clock_start;
+  double timeLimit;
 
 public:
-	Time(int fps) {
+	Time(int fps, double getLimit) {
 		this->fps = fps;
+		this->timeLimit = getLimit;
 		currentFPS = 0;
     clock_start = clock();
 	}
@@ -23,6 +25,12 @@ public:
 	}
 	const int getFPS() {
 		return currentFPS;
+	}
+	const double getTimeLimit() {
+		return timeLimit;
+	}
+	const double Process() {
+		return (double)currentFPS / fps / timeLimit;
 	}
 
   inline clock_t ElapsedTime() {
