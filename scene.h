@@ -1,4 +1,4 @@
-﻿#ifndef	_SCENE_H_
+#ifndef	_SCENE_H_
 #define	_SCENE_H_
 
 #include "constant.h"
@@ -9,7 +9,7 @@ namespace edupt {
 	class scene {
 	public:
 		// レンダリングするシーンデータ
-		Sphere spheres[11] = {
+		Sphere spheres[10] = {
 			Sphere(1e5, Vec(1e5 + 1, 40.8, 81.6), Color(),      Color(0.75, 0.25, 0.25), REFLECTION_TYPE_DIFFUSE), // 左
 			Sphere(1e5, Vec(-1e5 + 99, 40.8, 81.6),Color(),      Color(0.25, 0.25, 0.75), REFLECTION_TYPE_DIFFUSE), // 右
 			Sphere(1e5, Vec(50, 40.8, 1e5),      Color(),      Color(0.75, 0.75, 0.75), REFLECTION_TYPE_DIFFUSE), // 奥
@@ -20,13 +20,13 @@ namespace edupt {
 			Sphere(16.5,Vec(27, 16.5, 47),       Color(),      Color(0.99, 0.99, 0.99), REFLECTION_TYPE_SPECULAR), // 鏡
 			Sphere(16.5,Vec(77, 16.5, 78),       Color(),      Color(0.99, 0.99, 0.99), REFLECTION_TYPE_REFRACTION), //ガラス
 			Sphere(15.0,Vec(50.0, 90.0, 81.6),   Color(36,36,36), Color(),              REFLECTION_TYPE_DIFFUSE), //照明
-			Sphere(20,Vec(50.0, 50.0, 81.6),           Color(),      Color(1.0, 0.25, 0.25), REFLECTION_TYPE_DIFFUSE), // 球
+			//Sphere(20,Vec(50.0, 50.0, 81.6),           Color(),      Color(1.0, 0.25, 0.25), REFLECTION_TYPE_DIFFUSE), // 球
 		};
 
 
 		//カメラ
-		Vec camera_position = Vec(50.0, 75.0, 220.0);
-		Vec camera_dir = Vec(0,0,1);
+		Vec camera_position = Vec(50.0, 30.0, 220.0);
+		Vec camera_dir = normalize(Vec(0.0, -0.04, -1.0));
 		Vec camera_up = Vec(0.0, 1.0, 0.0);
 
 

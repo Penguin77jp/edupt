@@ -7,19 +7,20 @@
 #include "Time.h"
 #include "scene.h"
 #include "Animation.h"
+#include "AnimationWork.h"
 
 int main(int argc, char** argv) {
 	std::cout << "Path tracing renderer: edupt" << std::endl << std::endl;
 
-	//const int width = 640, height = 480, sampling = 10, fps = 15;
-	const int width = 250, height = 250, sampling = 250, superSamples = 2, fps = 15;
+  //const int width = 250, height = 250, sampling = 250, superSamples = 2, fps = 15;
+  const int width = 250, height = 250, sampling = 5, superSamples = 2, fps = 4;
 
 	vWriter writer = vWriter("output", fps, width, height);
 	edupt::scene* sceneData = &edupt::scene();
-	Time time = Time(fps, 0.001);
+	Time time = Time(fps, 4);
 	Animation anim = Animation(&time, sceneData);
-	Work test = TrigonometricAnimation(&sceneData->camera_position.x, 0, 4, TrigonometricAnimation::e_TrigonType::sin);
-	anim.AddWork((Work));
+	anim.AddWork((AnimationWork)TrigonometricAnimation(&sceneData->camera_position.x, 0, 4, TrigonometricAnimation::e_TrigonType::sin));
+  
 	
 
 	//animation
