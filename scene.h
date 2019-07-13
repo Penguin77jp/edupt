@@ -25,7 +25,8 @@ namespace edupt {
 
 
 		//カメラ
-		Vec camera_position = Vec(50.0, 30.0, 220.0);
+    //center = (50,40,125)
+		Vec camera_position = Vec(50.0, 70.0, 220.0);
 		Vec camera_dir = normalize(Vec(0.0, -0.04, -1.0));
 		Vec camera_up = Vec(0.0, 1.0, 0.0);
 

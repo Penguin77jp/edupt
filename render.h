@@ -29,7 +29,7 @@ namespace edupt {
 		std::cout << width << "x" << height << " " << samples * (supersamples * supersamples) << " spp" << std::endl;
 
 		// OpenMP
-	#pragma omp parallel for schedule(dynamic, 1) num_threads(6)
+	#pragma omp parallel for schedule(dynamic, 1)
 		for (int y = 0; y < height; y++) {
 			//double process = ((double)y / (height - 1)) * (time.getSceneTime() / time.getTimeLimit());
 			//double process = ((double)(y+ time.getSceneTime()*(height-1)) / (*(height - 1)));

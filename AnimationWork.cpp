@@ -1,10 +1,8 @@
 #include "AnimationWork.h"
 
-AnimationWork::AnimationWork(double& targetVar, double timeStart, double timeLimit, Time& time) : targetVar(targetVar), timeStart(timeStart), timeLimit(timeLimit), time(time) {}
+AnimationWork::AnimationWork(double timeStart, double timeLimit, Time& time): timeStart(timeStart), timeLimit(timeLimit), time(time){}
 
-/*
-
-LinerAnimation::LinerAnimation(double& targetVar, double timeStart, double timeLimit, Time& time, double startValue, double targetValue) : AnimationWork(targetVar, timeStart, timeLimit, time), startValue(startValue), targetValue(targetValue) {}
+LinerAnimation::LinerAnimation(double& targetVar, double timeStart, double timeLimit, Time& time, double startValue, double targetValue) : targetVar(targetVar),AnimationWork(timeStart, timeLimit, time), startValue(startValue), targetValue(targetValue) {}
 
 void LinerAnimation::UpdateAnimation() {
   double tp = (time.getSceneTime() - timeStart) / (timeLimit - timeStart);
@@ -13,9 +11,7 @@ void LinerAnimation::UpdateAnimation() {
   }
 }
 
-*/
-
-TrigonometricAnimation::TrigonometricAnimation(double &targetVar, double timeStart,double timeLimit, Time& time, e_TrigonType trigonType) : AnimationWork(targetVar, timeStart, timeLimit, time), trigonType(trigonType) {}
+TrigonometricAnimation::TrigonometricAnimation(double &targetVar, double timeStart,double timeLimit, Time& time, e_TrigonType trigonType,double size, double speed,double offset) : targetVar(targetVar),AnimationWork(timeStart, timeLimit, time), trigonType(trigonType),size(size), speed(speed),offset(offset) {}
 
 void TrigonometricAnimation::UpdateAnimation() {
   double tp = (time.getSceneTime() - timeStart) / (timeLimit - timeStart);
@@ -25,20 +21,32 @@ void TrigonometricAnimation::UpdateAnimation() {
 
     switch (trigonType)
     {
-    sin:
+    case sin:
       cal = std::sin(cal_time);
       break;
-    cos:
+    case cos:
       cal = std::cos(cal_time);
       break;
-    tan:
+    case tan:
       cal = std::tan(cal_time);
       break;
     default:
       break;
     }
-    std::cout << cal << std::endl;
-    targetVar = cal + offset;
+    targetVar = cal*size + offset;
   }
 }
 
+LookAt::LookAt(scene& sceneData, double timeStart, double timeLimit, Time& tmie, Vec lookPoint, Vec &originPoint):sceneData(sceneData),AnimationWork(timeStart,timeLimit,time),lookPoint(lookPoint),originPoint(originPoint){}
+
+void LookAt::UpdateAnimation() {
+  Vec z = normalize(lookPoint - originPoint);
+  Vec x = normalize(cross(upVec, z));
+  Vec y = normalize(cross(x, z));
+  printf("%f, %f, %f\n", x.x, x.y, x.z);
+  printf("%f, %f, %f\n", y.x, y.y, y.z);
+  printf("%f, %f, %f\n",z.x,z.y,z.z);
+
+  sceneData.camera_dir = z;
+  sceneData.camera_up = x;
+}
