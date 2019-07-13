@@ -18,22 +18,17 @@ public:
 	Animation(Time* time, edupt::scene* sceneData) {
 		this->time = time;
 		this->sceneData = sceneData;
+    works = Vector<AnimationWork>();
 	}
 
-	/*void AddWork(AnimationWork getWork) {
+	void AddWork(AnimationWork getWork) {
 		works.push_back(getWork);
-	}*/
+	}
 
 	void Update() {
 		for (int i = 0; i < works.size(); i++) {
 			works.at(i).UpdateAnimation();
 		}
 	}
-
-	//void Animation(int* targetVar, int targetValue, double target, ) {
-
-	//}
-
-
 };
 
