@@ -20,9 +20,9 @@ public:
 		this->sceneData = sceneData;
 	}
 
-	void AddWork(AnimationWork getWork) {
+	/*void AddWork(AnimationWork getWork) {
 		works.push_back(getWork);
-	}
+	}*/
 
 	void Update() {
 		for (int i = 0; i < works.size(); i++) {

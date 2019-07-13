@@ -19,7 +19,9 @@ int main(int argc, char** argv) {
 	edupt::scene* sceneData = &edupt::scene();
 	Time time = Time(fps, 4);
 	Animation anim = Animation(&time, sceneData);
-	anim.AddWork((AnimationWork)TrigonometricAnimation(&sceneData->camera_position.x, 0, 4, TrigonometricAnimation::e_TrigonType::sin));
+	//anim.AddWork((AnimationWork)TrigonometricAnimation(&sceneData->camera_position.x, 0, 4, TrigonometricAnimation::e_TrigonType::sin));
+  auto test = TrigonometricAnimation(&sceneData->camera_position.x, 0, 4, TrigonometricAnimation::e_TrigonType::sin);
+  test.UpdateAnimation();
   
 	
 
