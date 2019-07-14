@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Time.h"
+#include "sTime.h"
 #include "vec.h"
 #include "scene.h"
 #include <cmath>
@@ -11,18 +11,18 @@ using namespace edupt;
 
 class AnimationWork {
 public:
-  Time& time;
+  sTime& time;
   double timeStart;
   double timeLimit;
 
-  AnimationWork(double timeStart,double timeLimit,Time &time);
+  AnimationWork(double timeStart,double timeLimit,sTime &time);
 
   virtual void UpdateAnimation()=0;
 };
 
 class LinerAnimation : public AnimationWork {
 public:
-  LinerAnimation(double& targetVar, double timeStart, double timeLimit,Time &time, double startValue, double targetValue);
+  LinerAnimation(double& targetVar, double timeStart, double timeLimit,sTime &time, double startValue, double targetValue);
 
   void UpdateAnimation();
 
@@ -39,7 +39,7 @@ public:
     sin, cos, tan,
   };
   
-  TrigonometricAnimation(double& targetVar, double timeStart, double timeLimit,Time &tmie, e_TrigonType trigonType, double size, double speed , double offset);
+  TrigonometricAnimation(double& targetVar, double timeStart, double timeLimit,sTime &tmie, e_TrigonType trigonType, double size, double speed , double offset);
 
   void UpdateAnimation() override;
 
@@ -53,7 +53,7 @@ private:
 
 class LookAt : public AnimationWork {
 public:
-  LookAt(scene& sceneData, double timeStart, double timeLimit, Time& tmie,Vec lookPoint, Vec &originPoint);
+  LookAt(scene& sceneData, double timeStart, double timeLimit, sTime& tmie,Vec lookPoint, Vec &originPoint);
 
   void UpdateAnimation() override;
 

@@ -150,8 +150,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationWork.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ppm.cpp" />
+    <ClCompile Include="radiance.cpp" />
+    <ClCompile Include="random.cpp" />
+    <ClCompile Include="render.cpp" />
+    <ClCompile Include="sphere.cpp" />
+    <ClCompile Include="sTime.cpp" />
+    <ClCompile Include="vWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -166,8 +174,7 @@
     <ClInclude Include="render.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sphere.h" />
-    <ClInclude Include="TextImage.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="sTime.h" />
     <ClInclude Include="vec.h" />
     <ClInclude Include="vWriter.h" />
   </ItemGroup>

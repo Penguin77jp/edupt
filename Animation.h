@@ -1,32 +1,25 @@
 #pragma once
 
 #include "AnimationWork.h"
-#include "Time.h"
+#include "sTime.h"
 #include "scene.h"
 #include <vector>
+
 
 template<typename T>
 using Vector = std::vector<T>;
 
 class Animation {
 public:
-	Time* time;
-	edupt::scene* sceneData;
-	Vector<AnimationWork*> works;
+  sTime* time;
+  edupt::scene* sceneData;
+  Vector<AnimationWork*> works;
 
 
-	Animation(Time* time, edupt::scene* sceneData) {
-		this->time = time;
-		this->sceneData = sceneData;
-	}
+  Animation(sTime* time, edupt::scene* sceneData);
 
-	void AddWork(AnimationWork *getWork) {
-    works.emplace_back(getWork);
-	}
+  void AddWork(AnimationWork* getWork);
 
-	void Update() {
-    for (auto& elm : works)
-      elm->UpdateAnimation();
-	}
+  void Update();
 };
 

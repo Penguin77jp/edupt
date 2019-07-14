@@ -5,28 +5,15 @@
 
 namespace edupt {
 
-// Xor-Shiftによる乱数ジェネレータ
+// Xor-Shift縺ｫ繧医ｋ荵ｱ謨ｰ繧ｸ繧ｧ繝阪Ξ繝ｼ繧ｿ
 class XorShift {
 	unsigned int seed_[4];
 public:
-	unsigned int next(void) { 
-		const unsigned int t = seed_[0] ^ (seed_[0] << 11);
-		seed_[0] = seed_[1]; 
-		seed_[1] = seed_[2];
-		seed_[2] = seed_[3];
-		return seed_[3] = (seed_[3] ^ (seed_[3] >> 19)) ^ (t ^ (t >> 8)); 
-	}
+  unsigned int next(void);
 
-	double next01(void) {
-		return (double)next() / UINT_MAX;
-	}
+  double next01(void);
 
-	XorShift(const unsigned int initial_seed) {
-		unsigned int s = initial_seed;
-		for (int i = 1; i <= 4; i++){
-			seed_[i-1] = s = 1812433253U * (s^(s>>30)) + i;
-		}
-	}
+  XorShift(const unsigned int initial_seed);
 };
 
 typedef XorShift Random;

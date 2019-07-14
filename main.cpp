@@ -4,7 +4,7 @@
 
 #include "render.h"
 #include "vWriter.h"
-#include "Time.h"
+#include "sTime.h"
 #include "scene.h"
 #include "Animation.h"
 
@@ -16,7 +16,7 @@ int main() {
 
   vWriter writer = vWriter("output", fps, width, height);
   edupt::scene sceneData = edupt::scene();
-  Time time = Time(fps, 3.14*2);
+  sTime time = sTime(fps, 3.14*2);
   Animation anim = Animation(&time, &sceneData);
   anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.x, 0, 7, time, TrigonometricAnimation::e_TrigonType::sin, 40.0, 1.0, 50.0));
   anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.z, 0, 7, time, TrigonometricAnimation::e_TrigonType::cos, 100.0, 1.0, 125.0));

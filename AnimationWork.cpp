@@ -1,8 +1,8 @@
 #include "AnimationWork.h"
 
-AnimationWork::AnimationWork(double timeStart, double timeLimit, Time& time): timeStart(timeStart), timeLimit(timeLimit), time(time){}
+AnimationWork::AnimationWork(double timeStart, double timeLimit, sTime& time): timeStart(timeStart), timeLimit(timeLimit), time(time){}
 
-LinerAnimation::LinerAnimation(double& targetVar, double timeStart, double timeLimit, Time& time, double startValue, double targetValue) : targetVar(targetVar),AnimationWork(timeStart, timeLimit, time), startValue(startValue), targetValue(targetValue) {}
+LinerAnimation::LinerAnimation(double& targetVar, double timeStart, double timeLimit, sTime& time, double startValue, double targetValue) : targetVar(targetVar),AnimationWork(timeStart, timeLimit, time), startValue(startValue), targetValue(targetValue) {}
 
 void LinerAnimation::UpdateAnimation() {
   double tp = (time.getSceneTime() - timeStart) / (timeLimit - timeStart);
@@ -11,7 +11,7 @@ void LinerAnimation::UpdateAnimation() {
   }
 }
 
-TrigonometricAnimation::TrigonometricAnimation(double &targetVar, double timeStart,double timeLimit, Time& time, e_TrigonType trigonType,double size, double speed,double offset) : targetVar(targetVar),AnimationWork(timeStart, timeLimit, time), trigonType(trigonType),size(size), speed(speed),offset(offset) {}
+TrigonometricAnimation::TrigonometricAnimation(double &targetVar, double timeStart,double timeLimit, sTime& time, e_TrigonType trigonType,double size, double speed,double offset) : targetVar(targetVar),AnimationWork(timeStart, timeLimit, time), trigonType(trigonType),size(size), speed(speed),offset(offset) {}
 
 void TrigonometricAnimation::UpdateAnimation() {
   double tp = (time.getSceneTime() - timeStart) / (timeLimit - timeStart);
@@ -37,7 +37,7 @@ void TrigonometricAnimation::UpdateAnimation() {
   }
 }
 
-LookAt::LookAt(scene& sceneData, double timeStart, double timeLimit, Time& tmie, Vec lookPoint, Vec &originPoint):sceneData(sceneData),AnimationWork(timeStart,timeLimit,time),lookPoint(lookPoint),originPoint(originPoint){}
+LookAt::LookAt(scene& sceneData, double timeStart, double timeLimit, sTime& tmie, Vec lookPoint, Vec &originPoint):sceneData(sceneData),AnimationWork(timeStart,timeLimit,time),lookPoint(lookPoint),originPoint(originPoint){}
 
 void LookAt::UpdateAnimation() {
   Vec z = normalize(lookPoint - originPoint);
