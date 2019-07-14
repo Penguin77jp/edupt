@@ -8,7 +8,7 @@
 #include "scene.h"
 #include "Animation.h"
 
-int main(int argc, char** argv) {
+int main() {
   std::cout << "Path tracing renderer: edupt" << std::endl << std::endl;
 
   //const int width = 250, height = 250, sampling = 250, superSamples = 2, fps = 15;
