@@ -11,7 +11,7 @@ namespace edupt {
 
     const Sphere& now_object = getSceneData->spheres[intersection.object_id];
     const Hitpoint& hitpoint = intersection.hitpoint;
-    const Vec orienting_normal = dot(hitpoint.normal, ray.dir) < 0.0 ? hitpoint.normal : (-1.0 * hitpoint.normal); // 交差位置の法線（物体からのレイの入出を考慮）
+    const Vec3 orienting_normal = dot(hitpoint.normal, ray.dir) < 0.0 ? hitpoint.normal : (-1.0 * hitpoint.normal); // 交差位置の法線（物体からのレイの入出を考慮）
     // 色の反射率最大のものを得る。ロシアンルーレットで使う。
     // ロシアンルーレットの閾値は任意だが色の反射率等を使うとより良い。
     double russian_roulette_probability = std::max(now_object.color.x, std::max(now_object.color.y, now_object.color.z));
@@ -36,17 +36,17 @@ namespace edupt {
       // 完全拡散面
     case REFLECTION_TYPE_DIFFUSE: {
       // orienting_normalの方向を基準とした正規直交基底(w, u, v)を作る。この基底に対する半球内で次のレイを飛ばす。
-      Vec w, u, v;
+      Vec3 w, u, v;
       w = orienting_normal;
       if (fabs(w.x) > kEPS) // ベクトルwと直交するベクトルを作る。w.xが0に近い場合とそうでない場合とで使うベクトルを変える。
-        u = normalize(cross(Vec(0.0, 1.0, 0.0), w));
+        u = normalize(cross(Vec3(0.0, 1.0, 0.0), w));
       else
-        u = normalize(cross(Vec(1.0, 0.0, 0.0), w));
+        u = normalize(cross(Vec3(1.0, 0.0, 0.0), w));
       v = cross(w, u);
       // コサイン項を使った重点的サンプリング
       const double r1 = 2 * kPI * rnd->next01();
       const double r2 = rnd->next01(), r2s = sqrt(r2);
-      Vec dir = normalize((
+      Vec3 dir = normalize((
         u * cos(r1) * r2s +
         v * sin(r1) * r2s +
         w * sqrt(1.0 - r2)));
@@ -58,7 +58,14 @@ namespace edupt {
       // Rはロシアンルーレットの確率。
       // 今、コサイン項に比例した確率密度関数によるサンプリングを行っているため、pdf(ω) = cosθ/π
       // よって、weight = ρ/ R。
-      weight = now_object.color / russian_roulette_probability;
+
+      if (now_object.texture != nullptr) {
+        weight = multiply(now_object.texture->Normal2Color(orienting_normal),now_object.color) / russian_roulette_probability;
+        weight = now_object.texture->Normal2Color(orienting_normal);
+      }
+      else {
+        weight = now_object.color / russian_roulette_probability;
+      }
     } break;
 
       // 完全鏡面
@@ -122,7 +129,15 @@ namespace edupt {
 
     }
 
-    return now_object.emission + multiply(weight, incoming_radiance);
+    Color emission = Color();
+    if (now_object.texture == nullptr) {
+      emission = now_object.emission;
+    }
+    else {
+      emission = multiply(now_object.emission, now_object.texture->Normal2Color(orienting_normal));
+    }
+    return emission + weight;
+    //return emission + multiply(weight, incoming_radiance);
   }
 
 };

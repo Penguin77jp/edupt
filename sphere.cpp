@@ -5,7 +5,7 @@ namespace edupt {
     // 入力のrayに対する交差点までの距離を返す。交差しなかったら0を返す。
     // rayとの交差判定を行う。交差したらtrue,さもなくばfalseを返す。
     bool Sphere::intersect(const Ray& ray, Hitpoint* hitpoint) const {
-      const Vec p_o = position - ray.org;
+      const Vec3 p_o = position - ray.org;
       const double b = dot(p_o, ray.dir);
       const double D4 = b * b - dot(p_o, p_o) + radius * radius;
 

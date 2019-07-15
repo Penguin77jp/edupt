@@ -13,7 +13,7 @@
 
 namespace edupt {
 
-  Color* render(const int width, const int height, const int samples, const int supersamples, sTime time, scene* sceneData, vWriter writer);
+  void render(const int width, const int height, const int samples, const int supersamples, sTime time, scene* sceneData, vWriter writer);
 
 };
 

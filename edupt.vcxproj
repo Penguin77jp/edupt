@@ -175,6 +175,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="sTime.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="vec.h" />
     <ClInclude Include="vWriter.h" />
   </ItemGroup>

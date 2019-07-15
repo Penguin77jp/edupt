@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sTime.h"
-#include "vec.h"
+#include "Vec.h"
 #include "scene.h"
 #include <cmath>
 #include <iostream>
@@ -53,12 +53,12 @@ private:
 
 class LookAt : public AnimationWork {
 public:
-  LookAt(scene& sceneData, double timeStart, double timeLimit, sTime& tmie,Vec lookPoint, Vec &originPoint);
+  LookAt(scene& sceneData, double timeStart, double timeLimit, sTime& tmie,Vec3 lookPoint, Vec3 &originPoint);
 
   void UpdateAnimation() override;
 
 private:
   scene& sceneData;
-  Vec lookPoint;
-  Vec &originPoint;
+  Vec3 lookPoint;
+  Vec3 &originPoint;
 };

@@ -37,16 +37,13 @@ void TrigonometricAnimation::UpdateAnimation() {
   }
 }
 
-LookAt::LookAt(scene& sceneData, double timeStart, double timeLimit, sTime& tmie, Vec lookPoint, Vec &originPoint):sceneData(sceneData),AnimationWork(timeStart,timeLimit,time),lookPoint(lookPoint),originPoint(originPoint){}
+LookAt::LookAt(scene& sceneData, double timeStart, double timeLimit, sTime& tmie, Vec3 lookPoint, Vec3 &originPoint):sceneData(sceneData),AnimationWork(timeStart,timeLimit,time),lookPoint(lookPoint),originPoint(originPoint){}
 
 void LookAt::UpdateAnimation() {
-  Vec z = normalize(lookPoint - originPoint);
-  Vec x = normalize(cross(upVec, z));
-  Vec y = normalize(cross(x, z));
-  printf("%f, %f, %f\n", x.x, x.y, x.z);
-  printf("%f, %f, %f\n", y.x, y.y, y.z);
-  printf("%f, %f, %f\n",z.x,z.y,z.z);
+  Vec3 z = normalize(lookPoint - originPoint);
+  Vec3 x = normalize(cross(Vec3(0,1,0), z));
+  Vec3 y = normalize(cross(z, x));
 
   sceneData.camera_dir = z;
-  sceneData.camera_up = x;
+  sceneData.camera_up = y;
 }

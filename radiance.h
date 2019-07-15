@@ -8,6 +8,7 @@
 #include "sphere.h"
 #include "intersection.h"
 #include "random.h"
+#include "Texture.h"
 
 namespace edupt {
 

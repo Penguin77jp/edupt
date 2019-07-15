@@ -8,8 +8,8 @@ namespace edupt {
 
 struct Hitpoint {
 	double distance;
-	Vec normal;
-	Vec position;
+	Vec3 normal;
+	Vec3 position;
 
 	Hitpoint() : distance(kINF), normal(), position() {}
 };
