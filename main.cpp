@@ -12,18 +12,16 @@
 int main() {
   std::cout << "Path tracing renderer: edupt" << std::endl << std::endl;
 
-  //const int width = 250, height = 250, sampling = 250, superSamples = 2, fps = 15;
-  const int width = 500, height = 500, sampling = 50, superSamples = 2, fps = 15;
+  const int width = 500, height = 500, sampling = 200, superSamples = 4, fps = 15;
   const double timeLimit = 3.1482*2;
-  //const double timeLimit = 3.1482*0.5;
 
   vWriter writer = vWriter("output", fps, width, height);
   edupt::scene sceneData = edupt::scene();
   sTime time = sTime(fps, timeLimit);
   Animation anim = Animation(&time, &sceneData);
-  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.x,0,timeLimit,time,TrigonometricAnimation::e_TrigonType::sin,25,1,50));
+  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.x,0,timeLimit,time,TrigonometricAnimation::e_TrigonType::sin,40,1,50));
   anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.y, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 0, 1, 40));
-  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.z, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 25, 1, 125));
+  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.z, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 40, 1, 125));
   anim.AddWork(&LookAt(sceneData, 0, timeLimit, time, Vec3(50, 40, 125), sceneData.camera_position));
   anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.x, 0, 1, time, 0, 1));
   anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.y, 0, 1, time, 0, 0));
