@@ -7,7 +7,7 @@ namespace edupt {
     const double screen_width = 30.0 * width / height;
     const double screen_height = 30.0;
     // スクリーンまでの距離
-    const double screen_dist = 10.0;
+    const double screen_dist = 20.0;
 
     // スクリーンを張るベクトル
     const Vec3 screen_x = normalize(cross(sceneData->camera_dir, sceneData->camera_up)) * screen_width;

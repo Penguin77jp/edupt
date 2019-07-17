@@ -22,8 +22,8 @@ int main() {
   sTime time = sTime(fps, timeLimit);
   Animation anim = Animation(&time, &sceneData);
   anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.x,0,timeLimit,time,TrigonometricAnimation::e_TrigonType::sin,25,1,50));
-  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.y, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 25, 1, 40));
-  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.z, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 0, 1, 125));
+  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.y, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 0, 1, 40));
+  anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.z, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 25, 1, 125));
   anim.AddWork(&LookAt(sceneData, 0, timeLimit, time, Vec3(50, 40, 125), sceneData.camera_position));
   anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.x, 0, 1, time, 0, 1));
   anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.y, 0, 1, time, 0, 0));
