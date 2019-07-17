@@ -136,8 +136,7 @@ namespace edupt {
     else {
       emission = multiply(now_object.emission, now_object.texture->Normal2Color(orienting_normal));
     }
-    return emission + weight;
-    //return emission + multiply(weight, incoming_radiance);
+    return emission + multiply(weight, incoming_radiance);
   }
 
 };

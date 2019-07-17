@@ -13,8 +13,8 @@ int main() {
   std::cout << "Path tracing renderer: edupt" << std::endl << std::endl;
 
   //const int width = 250, height = 250, sampling = 250, superSamples = 2, fps = 15;
-  const int width = 2000, height = 2000, sampling = 1, superSamples = 1, fps = 1;
-  const double timeLimit = 1.0/fps*2;
+  const int width = 500, height = 500, sampling = 50, superSamples = 2, fps = 15;
+  const double timeLimit = 3.1482*2;
   //const double timeLimit = 3.1482*0.5;
 
   vWriter writer = vWriter("output", fps, width, height);
@@ -25,6 +25,11 @@ int main() {
   anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.y, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 25, 1, 40));
   anim.AddWork(&TrigonometricAnimation(sceneData.camera_position.z, 0, timeLimit, time, TrigonometricAnimation::e_TrigonType::cos, 0, 1, 125));
   anim.AddWork(&LookAt(sceneData, 0, timeLimit, time, Vec3(50, 40, 125), sceneData.camera_position));
+  anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.x, 0, 1, time, 0, 1));
+  anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.y, 0, 1, time, 0, 0));
+  anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.z, 0, 1, time, 0, 0));
+  anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.y, 1, 2, time, 0, 1));
+  anim.AddWork(&LinerAnimation(sceneData.spheres[6].color.z, 1, 2, time, 0, 1));
 
   //animation
   for (; time.getSceneTime() < time.getTimeLimit(); time++) {

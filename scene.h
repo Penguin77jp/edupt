@@ -11,7 +11,7 @@ namespace edupt {
   public:
     // レンダリングするシーンデータ
     Texture tex = Texture("4k.jpg");
-    Sphere spheres[10]{
+    Sphere spheres[8]{
   Sphere(1e5, Vec3(1e5 + 1, 40.8, 81.6), Color(),      Color(0.75, 0.25, 0.25), REFLECTION_TYPE_DIFFUSE,nullptr), // 左
   Sphere(1e5, Vec3(-1e5 + 99, 40.8, 81.6),Color(),      Color(0.25, 0.25, 0.75), REFLECTION_TYPE_DIFFUSE,nullptr), // 右
   Sphere(1e5, Vec3(50, 40.8, 1e5),      Color(),      Color(0.75, 0.75, 0.75), REFLECTION_TYPE_DIFFUSE,nullptr), // 奥
@@ -19,8 +19,6 @@ namespace edupt {
   Sphere(1e5, Vec3(50, 1e5, 81.6),      Color(),      Color(0.75, 0.75, 0.75), REFLECTION_TYPE_DIFFUSE,nullptr), // 床
   Sphere(1e5, Vec3(50, -1e5 + 81.6, 81.6),Color(),      Color(0.75, 0.75, 0.75), REFLECTION_TYPE_DIFFUSE,nullptr), // 天井
   Sphere(20,Vec3(50,40,125),           Color(),      Color(0.25, 0.75, 0.25), REFLECTION_TYPE_DIFFUSE,&tex), // 緑球
-  Sphere(16.5,Vec3(27, 16.5, 47),       Color(),      Color(0.99, 0.99, 0.99), REFLECTION_TYPE_SPECULAR,nullptr), // 鏡
-  Sphere(16.5,Vec3(77, 16.5, 78),       Color(),      Color(0.99, 0.99, 0.99), REFLECTION_TYPE_REFRACTION,nullptr), //ガラス
   Sphere(15.0,Vec3(50.0, 90.0, 81.6),   Color(36,36,36), Color(),              REFLECTION_TYPE_DIFFUSE,nullptr), //照明
     };
 
