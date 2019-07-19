@@ -7,7 +7,7 @@ namespace edupt {
     const double screen_width = 30.0 * width / height;
     const double screen_height = 30.0;
     // スクリーンまでの距離
-    const double screen_dist = 10.0;
+    const double screen_dist = 60.0;
 
     // スクリーンを張るベクトル
     const Vec3 screen_x = normalize(cross(sceneData->camera_dir, sceneData->camera_up)) * screen_width;
@@ -21,7 +21,11 @@ namespace edupt {
     // OpenMP
 #pragma omp parallel for schedule(dynamic, 1)
     for (int y = 0; y < height; y++) {
-      //std::cerr << "Rendering (y = " << y << ") " << (100.0 * y / (height - 1)) << "%" << std::endl;
+      std::cerr << "Rendering (y = " << y << ") " << (100.0 * y / (height - 1)) << "%" << std::endl;
+
+      //debug
+      if (y%(height/4) == 0)
+        save_ppm_file(std::string("image.ppm"), image, width, height);
 
       Random rnd(y + 1);
       for (int x = 0; x < width; x++) {

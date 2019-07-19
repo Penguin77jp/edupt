@@ -12,6 +12,7 @@ namespace edupt {
     const Sphere& now_object = getSceneData->spheres[intersection.object_id];
     const Hitpoint& hitpoint = intersection.hitpoint;
     const Vec3 orienting_normal = dot(hitpoint.normal, ray.dir) < 0.0 ? hitpoint.normal : (-1.0 * hitpoint.normal); // 交差位置の法線（物体からのレイの入出を考慮）
+
     // 色の反射率最大のものを得る。ロシアンルーレットで使う。
     // ロシアンルーレットの閾値は任意だが色の反射率等を使うとより良い。
     double russian_roulette_probability = std::max(now_object.color.x, std::max(now_object.color.y, now_object.color.z));
@@ -38,6 +39,14 @@ namespace edupt {
       // orienting_normalの方向を基準とした正規直交基底(w, u, v)を作る。この基底に対する半球内で次のレイを飛ばす。
       Vec3 w, u, v;
       w = orienting_normal;
+      //normalMap
+      if (now_object.normalMap != nullptr) {
+        auto z = normalize(w);
+        auto x = normalize(cross(Vec3(0, 1, 0), z));
+        auto y = normalize(cross(z, x));
+        auto normal = now_object.normalMap->Vec2Normal(orienting_normal);
+        w = normalize(w + normal.x * x + normal.y * y+ normal.z * z);
+      }
       if (fabs(w.x) > kEPS) // ベクトルwと直交するベクトルを作る。w.xが0に近い場合とそうでない場合とで使うベクトルを変える。
         u = normalize(cross(Vec3(0.0, 1.0, 0.0), w));
       else
@@ -46,6 +55,7 @@ namespace edupt {
       // コサイン項を使った重点的サンプリング
       const double r1 = 2 * kPI * rnd->next01();
       const double r2 = rnd->next01(), r2s = sqrt(r2);
+
       Vec3 dir = normalize((
         u * cos(r1) * r2s +
         v * sin(r1) * r2s +
@@ -60,8 +70,7 @@ namespace edupt {
       // よって、weight = ρ/ R。
 
       if (now_object.texture != nullptr) {
-        weight = multiply(now_object.texture->Normal2Color(orienting_normal),now_object.color) / russian_roulette_probability;
-        weight = now_object.texture->Normal2Color(orienting_normal);
+        weight = multiply(now_object.texture->Normal2Color(orienting_normal), now_object.color) / russian_roulette_probability;
       }
       else {
         weight = now_object.color / russian_roulette_probability;

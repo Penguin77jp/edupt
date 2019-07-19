@@ -25,14 +25,14 @@ public :
     angle = Vec2();
   }
 
-  Vec2 Normal2UV(Vec3 getPosi) {
+  inline Vec2 Normal2UV(Vec3 getPosi) {
     radius = getPosi.length();
     double theta = acos(getPosi.z / radius);
     double phi = asin(getPosi.y / radius / sin(theta));
     return Vec2(isnan(phi)?0:phi, isnan(theta) ? 0 : theta);
   }
 
-  Color Normal2Color(Vec3 getPosi) {
+  inline Color Normal2Color(Vec3 getPosi) {
     Vec2 uv = Normal2UV(getPosi);
     uv.x = (uv.x + M_PI) / (M_PI*2) + angle.x;
     uv.y = uv.y / (M_PI * 2) + angle.y;
@@ -66,7 +66,7 @@ public :
     return Color(avg.x/255,avg.y/255, avg.z/255);
   }
 
-  int UV2arrayIndex(int getX, int getY,int bgr) {
+  inline int UV2arrayIndex(int getX, int getY,int bgr) {
     if (getX < 0)
       getX = 0;
     if (getX >= image.cols)
