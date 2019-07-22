@@ -7,9 +7,9 @@
 #include "ppm.h"
 #include "random.h"
 #include "vWriter.h"
-#pragma once
 #include "scene.h"
 #include "sTime.h"
+#include "pWriter.h"
 
 namespace edupt {
 
