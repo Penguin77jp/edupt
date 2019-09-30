@@ -12,7 +12,7 @@
 int main() {
   std::cout << "Path tracing renderer: edupt" << std::endl << std::endl;
 
-  const int width = 1000, height = 500, sampling = 200, superSamples = 2, fps = 1;
+  const int width = 1000, height = 500, sampling = 1000, superSamples = 2, fps = 1;
   const double timeLimit = 0.00001;
   //const double timeLimit = 3.1482*2;
 
