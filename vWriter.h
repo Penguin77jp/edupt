@@ -4,39 +4,28 @@
 
 class vWriter {
 private:
-	int width, height,fps;
-
-	double clamp(double x) {
-		if (x < 0.0)
-			return 0.0;
-		if (x > 1.0)
-			return 1.0;
-		return x;
-	}
-	int to_int(double x) {
-		return int(pow(clamp(x), 1 / 2.2) * 255 + 0.5);
-	}
+	int width, height, fps;
 
 public:
 	cv::VideoWriter writer;
-	vWriter(std::string fileName,int fps ,int width, int height) {
-		cv::VideoWriter writer(fileName + ".avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), fps, cv::Size(width, height));
+	vWriter(std::string fileName, int fps, int width, int height) {
+		cv::VideoWriter writer(fileName + ".mp4", cv::VideoWriter::fourcc('X', '2', '6', '4'), fps, cv::Size(width, height));
 		this->writer = writer;
 		this->width = width;
 		this->height = height;
 		this->fps = fps;
 	}
 
-	void Write(edupt::Color* Color) {
-		cv::Mat frame(cv::Size(width,height), CV_8UC3);
+	void Write(unsigned char color[]) {
+		cv::Mat frame(cv::Size(width, height), CV_8UC3);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				frame.data[y * width * 3 + x * 3] = (int)(255 * Color[y * width + x].z);
-				frame.data[y * width * 3 + x * 3 + 1] = (int)(255 * Color[y * width + x].y);
-				frame.data[y * width * 3 + x * 3 + 2] = (int)(255 * Color[y * width + x].x);
+				int index = y * width + x;
+				frame.data[y * width * 3 + x * 3] = (int)(color[index + 2]);
+				frame.data[y * width * 3 + x * 3 + 1] = (int)(color[index + 1]);
+				frame.data[y * width * 3 + x * 3 + 2] = (int)(color[index]);
 			}
 		}
 		writer << frame;
-
 	}
 };
